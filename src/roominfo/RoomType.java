@@ -11,7 +11,7 @@ public class RoomType implements Serializable {
 	private float discount;
 	
 	public RoomType() {
-		
+		//
 	}
 	
 	public RoomType(String roomType, boolean wifiEnabled, String facing, boolean smokingAllowed, float price,
