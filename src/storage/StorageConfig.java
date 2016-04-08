@@ -25,6 +25,7 @@ public class StorageConfig {
 		configs.put("StorageMethod", "Serialize");
 		configs.put("Guest", "guest.dat");
 		configs.put("RoomType", "roomType.dat");
+		configs.put("Room", "room.dat");
 	}
 	
 	public static StorageConfig getInstance(){
