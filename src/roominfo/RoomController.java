@@ -10,7 +10,7 @@ public class RoomController {
 	private ArrayList<Room> rooms;
 	private static RoomController singleInstance;
 	
-	public RoomController() {
+	private RoomController() {
 		rooms = new ArrayList<Room>();
         storageManager = StorageManager.getInstance();
         loadEntries();
@@ -39,9 +39,5 @@ public class RoomController {
 	
 	public ArrayList<Room> getRooms() {
 		return rooms;
-	}
-	
-	public void addRoom(Room room) {
-		rooms.add(room);
 	}
 }

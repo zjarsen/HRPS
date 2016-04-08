@@ -12,7 +12,7 @@ public class RoomTypeController {
 	private ArrayList<RoomType> roomTypes;
 	private static RoomTypeController singleInstance;
 	
-	public RoomTypeController() {
+	private RoomTypeController() {
 		roomTypes = new ArrayList<RoomType>();
         storageManager = StorageManager.getInstance();
         loadEntries();

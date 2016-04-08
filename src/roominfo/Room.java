@@ -8,7 +8,7 @@ public class Room implements Serializable {
 	private String status;		// vacant, occupied, reserved, under maintenance
 	
 	public Room() {
-		// testing for GIT
+		
 	}
 
 	public Room(String roomID, RoomType roomType, String status) {
@@ -43,6 +43,6 @@ public class Room implements Serializable {
 	}
 	
 	public String toString() {
-		return "RoomID: " + roomID + "\nRoom Type: " + roomType.getRoomType();
+		return "Number: " + roomID + "\nStatus: " + status + "\n" + roomType.toString();
 	}
 }

@@ -11,7 +11,7 @@ public class RoomType implements Serializable {
 	private float discount;
 	
 	public RoomType() {
-		//
+		
 	}
 	
 	public RoomType(String roomType, boolean wifiEnabled, String facing, boolean smokingAllowed, float price,
@@ -70,5 +70,13 @@ public class RoomType implements Serializable {
 
 	public void setDiscount(float discount) {
 		this.discount = discount;
+	}
+	
+	public String toString() {
+		return "Room Type: " + roomType + "\n\tWiFi Enabled: " + (isWifiEnabled() ? "Yes" : "No") + "\n\t" + "Facing: " + facing + "\n\tSmoking Room: " + (isSmokingAllowed() ? "Yes" : "No") + "\n\tRoom Price: " + price;
+		/*
+	private boolean smokingAllowed;	// true for allowed, false for not allowed
+	private float price;
+	private float discount;*/
 	}
 }
