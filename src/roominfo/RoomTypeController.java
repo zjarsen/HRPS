@@ -1,8 +1,6 @@
 package roominfo;
 
 import storage.StorageManager;
-import studentinfo.Guest;
-import studentinfo.GuestController;
 
 import java.util.ArrayList;
 

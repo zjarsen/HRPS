@@ -1,4 +1,4 @@
-import studentinfo.GuestManager;
+import guestinfo.GuestManager;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package studentinfo;
+package guestinfo;
 
 import storage.StorageManager;
 

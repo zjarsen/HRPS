@@ -1,4 +1,4 @@
-package studentinfo;
+package guestinfo;
 
 import java.io.Serializable;
 
