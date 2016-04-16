@@ -38,7 +38,7 @@ public class OrderTest {
 				manager.addOrder();
 				break;
 			case 5:
-				manager.updateOrder();
+				//manager.updateOrder();
 				break;
 			case 6: 
 				manager.printOrderItemList();

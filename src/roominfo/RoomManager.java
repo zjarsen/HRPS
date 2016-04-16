@@ -9,18 +9,28 @@ public class RoomManager {
 	private static RoomManager singleInstance;
 	private static RoomTypeController roomTypeController;
 	private static RoomController roomController;
-	
+
+	/**
+	 * update the singletons
+	 */
 	private RoomManager() {
 		roomTypeController = RoomTypeController.getInstance();
 		roomController = RoomController.getInstance();
 	}
-	
+
+	/**
+	 * get the singleton instance
+	 * @return
+	 */
 	public static RoomManager getInstance() {
 		if (singleInstance == null)
 			singleInstance = new RoomManager();
 		return singleInstance;
 	}
-	
+
+	/**
+	 * update the room type
+	 */
 	public void updateRoomTypes() {
 		Scanner scan = new Scanner(System.in);
 		ArrayList<RoomType> roomType = roomTypeController.getRoomTypes();
@@ -48,7 +58,7 @@ public class RoomManager {
 			
 			switch(choice) {
 			case 1:
-				System.out.println("Current: " + rtToUpdate.getRoomType());
+				System.out.println("Current: " + rtToUpdate.getType());
 				System.out.print("New: ");
 				String newRTName = "";
 				newRTName = scan.next();
@@ -61,28 +71,35 @@ public class RoomManager {
 			}
 				
 		}
-		scan.close();
 	}
-	
+
+	/**
+	 * Method to add new room types for selection when adding new rooms.
+	 */
 	public void addRoomTypes() {
 		Scanner scan = new Scanner(System.in);
 		System.out.print("Room Type Name: ");
 		String roomTypeName = scan.nextLine();
 		boolean wifiEnabled = false;
-		System.out.print("WiFi Enabled (Y/N): ");
-		if (scan.nextLine().charAt(0) == 'Y' || scan.nextLine().charAt(0) == 'y')
+		System.out.println("WiFi Enabled? 1: yes 2: no");
+		int wifiOpt = scan.nextInt();
+		if (wifiOpt == 1) {
 			wifiEnabled = true;
+		}
+		scan.nextLine();
 		System.out.print("With View Of (leave blank if not applicable): ");
-		String facing = "";
-		facing = scan.nextLine();
-		System.out.print("Smoking Allowed (Y/N): ");
+		String facing = scan.nextLine();
+		System.out.println("Smoking Allowed? 1: yes 2: no");
 		boolean smokingAllowed = false;
-		if (scan.nextLine().charAt(0) == 'Y' || scan.nextLine().charAt(0) == 'y')
+		int smokingOpt = scan.nextInt();
+		if (smokingOpt == 1) {
 			smokingAllowed = true;
-		float price = (float) 0.0;
-		System.out.print("Room Price: ");
-		price = scan.nextFloat();
-		float discount = (float) 100.0;
+		}
+		scan.nextLine();
+		System.out.print("Price: ");
+		float price = scan.nextFloat();
+		System.out.print("Discount Amount: ");
+		float discount = scan.nextFloat();
 		RoomType rt = new RoomType(roomTypeName, wifiEnabled, facing, smokingAllowed, price, discount);
 		ArrayList<RoomType> roomTypeList = roomTypeController.getRoomTypes();
 		roomTypeList.add(rt);
@@ -90,79 +107,55 @@ public class RoomManager {
 			System.out.println("Room Type saved successfully");
 		else
 			System.out.println("Room Type failed to save");
-		scan.close();
 	}
-	
-	public void updateRoom() {
-		//ArrayList<Room> roomList = roomController.getRooms();
-		System.out.println("Not yet implemented");
-	}
-	
-	public boolean updateRoomByRecord() {
-		return false;
-	}
-	
-	public void updateRoomByMenu() {
-		
-	}
-	
-	public void addRoom() {
-		Scanner scan = new Scanner(System.in);
-		System.out.print("Room Number (floor-unit e.g. 02-04):");
-		String roomID = scan.nextLine();
-		System.out.println("Room Type (select):");
-		ArrayList<RoomType> rt = roomTypeController.getRoomTypes();
-		int index = 0;
-		for (RoomType rt2 : rt) {
-			System.out.println((index + 1) + ") " + rt2.getRoomType());
-			System.out.println("\tWiFi Enabled: " + (rt2.isWifiEnabled() ? "Yes" : "No"));
-			System.out.println("\tFacing: " + rt2.getFacing());
-			System.out.println("\tSmoking Room: " + (rt2.isSmokingAllowed() ? "Yes" : "No"));
-			System.out.println("\tPrice: " + rt2.getPrice());
-			System.out.println("\tDiscount: " + rt2.getDiscount());
-			index++;
-		}
-		
-		RoomType roomieType = rt.get(scan.nextInt() - 1);
-		
-		System.out.println("Room Status (select):");
-		System.out.println("[1] Vacant");
-		System.out.println("[2] Occupied");
-		System.out.println("[3] Reserved");
-		System.out.println("[4] Under Maintenance");
-		
-		int selection = scan.nextInt();
-		String status = "";
-		
-		switch (selection) {
-		case 1:
-			status = "Vacant";
-			break;
-		case 2:
-			status = "Occupied";
-			break;
-		case 3:
-			status = "Reserved";
-			break;
-		case 4:
-			status = "Under Maintenance";
-			break;
-		default:
-			break;
-		}
 
-		Room newRoom = new Room(roomID, roomieType, status);
-		System.out.println("ID: " + newRoom.getRoomID());
-		System.out.println("Status: " + newRoom.getStatus());
-		ArrayList<Room> roomList = roomController.getRooms();
-		roomList.add(newRoom);
-		if (roomController.saveChanges())
-			System.out.println("Room added successfully");
-		else
-			System.out.println("Failed to add room");
-		scan.close();
+	/**
+	 * add a room, for testing and fake data setup
+	 */
+	public void addRoom() {
+		ArrayList<RoomType> rt = roomTypeController.getRoomTypes();
+		if (rt.isEmpty()) {
+			System.out.println("Error: No room types unavailable, unable to add rooms");
+		} else {
+			Scanner scan = new Scanner(System.in);
+			System.out.print("Room Number (floor-unit e.g. 02-04): ");
+			String roomID = scan.nextLine();
+			while (!roomID.matches("\\d{2}-\\d{2}")) {
+				System.out.println("Error: Invalid room number. Please try again.");
+				System.out.print("\nRoom Number (floor-unit e.g. 02-04): ");
+				roomID = scan.nextLine();
+			}
+			System.out.println("Room Type (select):");
+			int index = 0;
+			for (RoomType rt2 : rt) {
+				System.out.println((index + 1) + ") " + rt2.getType());
+				System.out.println("\tWiFi Enabled: " + (rt2.isWifiEnabled() ? "Yes" : "No"));
+				System.out.print("\tWith View Of: " + rt2.getFacing());
+				if (rt2.getFacing().isEmpty())
+					System.out.println("NA");
+				System.out.println("\tSmoking Room: " + (rt2.isSmokingAllowed() ? "Yes" : "No"));
+				System.out.println("\tPrice: " + rt2.getPrice());
+				System.out.println("\tDiscount: " + rt2.getDiscount());
+				index++;
+			}
+
+			RoomType roomieType = rt.get(scan.nextInt() - 1);
+
+			Room newRoom = new Room(roomID, roomieType, "Vacant");
+			ArrayList<Room> roomList = roomController.getRooms();
+			roomList.add(newRoom);
+			if (roomController.saveChanges())
+				System.out.println("Room added successfully");
+			else
+				System.out.println("Failed to add room");
+		}
 	}
-	
+
+	/**
+	 * search room by ID
+	 * @param roomID
+	 * @return
+	 */
 	public Room searchRoomByID(String roomID) {
 		ArrayList<Room> rooms = roomController.getRooms();
 		for (Room r : rooms) {
@@ -172,65 +165,31 @@ public class RoomManager {
 		}
 		return null;
 	}
-	
-	/*public Room reserveRoom(String roomNum) {
-		ArrayList<Room> rooms = roomController.getRooms();
-		for (Room r : rooms) {
-			if (r.getRoomID().equals(roomNum)) {
-				r.setStatus("Reserved");
-				if (roomController.saveChanges())
-					return r;
-			}
-		}
-		return null;
-	}*/
-	
-	/*public void checkInRoom(Room r) {
-		r.setStatus("Occupied");
-	}
-	
-	public void checkOutRoom(Room r) {
-		r.setStatus("Vacant");
-	}*/
-	
+
+	/**
+	 * print a room
+	 * @param r
+	 */
 	public void printRoomDetails(Room r) {
 		System.out.println(r.toString());
 		System.out.println();
 	}
-	
-	/*public void changeRoomStatus() {
-		Scanner scan = new Scanner(System.in);
-		String roomID = "";
-		System.out.print("Enter the room number: ");
-		roomID = scan.nextLine();
-		ArrayList<Room> rooms = roomController.getRooms();
-		boolean roomFound = false;
-		Room rChange = new Room();
-		for (Room r : rooms) {
-			if (r.getRoomID().equals(roomID)) {
-				roomFound = true;
-				rChange = r;
-				break;
-			}
-		}
-		if (roomFound) {
-			System.out.println("Room Number: " + rChange.getRoomID());
-			System.out.print("Status: " + rChange.getStatus());
-			
-			updateRoomStatus(rChange);
-		} else {
-			System.out.println("No such room");
-		}
-		scan.close();
-	}*/
-	
+
+	/**
+	 * print a room and change a room status
+	 * @param r
+	 */
 	public void changeRoomStatus(Room r) {
 		System.out.println("Room Number: " + r.getRoomID());
 		System.out.print("Status: " + r.getStatus());
 		
 		updateRoomStatus(r);
 	}
-	
+
+	/**
+	 * update the room
+	 * @param r
+	 */
 	public void updateRoomStatus(Room r) {
 		Scanner scan = new Scanner(System.in);
 		String[] status = {"Vacant", "Occupied", "Reserved", "Under Maintenance"};
@@ -241,70 +200,77 @@ public class RoomManager {
 		System.out.println("[4] Under Maintenance");
 		
 		int sel = scan.nextInt();
-		
+		scan.nextLine();
+
 		r.setStatus(status[sel - 1]);
 		if (roomController.saveChanges())
 			System.out.println("Status changed successfully");
 		else
 			System.out.println("Error: Unable to change status");
-		scan.close();
 	}
-	
+
 	/**
-	 * this method..
-	 * @param roomID
-	 * @return 
+	 * Checks the availability of a room through a given room ID. If the room is available ("Vacant"), it will return true. Otherwise it will return false if the room is in any of the other states ("Reserved", "Occupied", and "Under Maintenance")
+	 * @param roomID	The room number of the Room to check
+	 * @return			The availability of the Room
 	 */
 	public boolean checkRoomAvailability(String roomID) {
 		ArrayList<Room> rooms = roomController.getRooms();
 		for (Room r : rooms) {
 			if (r.getRoomID().equals(roomID)) {
-				if (r.getStatus().equals("Vacant"))
+				if (r.getStatus().equals("Vacant")) {
 					return true;
+				}
+				return false;
 			}
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Prints a statistical report of the rooms in the hotel.
+	 * Option 1 prints the number of vacant rooms out of the total number of rooms categorized by their room type.
+	 * Option 2 prints all the rooms categorized by their status.
+	 */
 	public void printRoomStatsReport() {
 		Scanner scan = new Scanner(System.in);
 		int sel = 0;
-		
+
 		System.out.println("[1] By Type");
 		System.out.println("[2] By Status");
-		
+
 		sel = scan.nextInt();
 
 		ArrayList<Room> rooms = roomController.getRooms();
-		
+
 		if (sel == 1) {
 			ArrayList<String> roomTypeStrings = new ArrayList<String>();
 			for (Room r : rooms) {
 				if (r.getStatus().equals("Vacant"))
-					roomTypeStrings.add(r.getRoomType().getRoomType());
+					roomTypeStrings.add(r.getRoomType().getType());
 			}
-			
+
 			Set<String> sRoom = new HashSet<String>(roomTypeStrings);
 
-			for (String r2 : sRoom) {			
+			for (String r2 : sRoom) {
 				int numOfVacancy = 0;
 				int numOfRooms = 0;
 
 				ArrayList<String> roomNums = new ArrayList<String>();
 				for (Room r3 : rooms) {
-					
-					if (r3.getRoomType().getRoomType().equals(r2)) {
+
+					if (r3.getRoomType().getType().equals(r2)) {
 						if (r3.getStatus().equals("Vacant")) {
 							roomNums.add(r3.getRoomID());
 							numOfVacancy++;
 						}
 						numOfRooms++;
 					}
-					
+
 				}
 
 				System.out.println(r2 + " : \tNumber : " + numOfVacancy + " out of " + numOfRooms);
-				System.out.print("\t\tRooms : ");
+				System.out.print("\t\t\tRooms : ");
 				for (int i = 0; i < roomNums.size(); i++) {
 					System.out.print(roomNums.get(i));
 					if (i != roomNums.size() - 1) {
@@ -318,28 +284,126 @@ public class RoomManager {
 			for (Room r : rooms) {
 				statuses.add(r.getStatus());
 			}
-			
+
 			Set<String> distinctStatuses = new HashSet<String>(statuses);
-			
+
 			for (String s : distinctStatuses) {
 				System.out.println(s + " : ");
 				System.out.print("\tRooms : ");
+
+				ArrayList<String> roomNums = new ArrayList<String>();
+
 				for (Room r : rooms) {
 					if (r.getStatus().equals(s)) {
-						System.out.print(r.getRoomID() + ", ");
+						roomNums.add(r.getRoomID());
+					}
+				}
+				for (int i = 0; i < roomNums.size(); i++) {
+					System.out.print(roomNums.get(i));
+					if (i != roomNums.size() - 1) {
+						System.out.print(", ");
 					}
 				}
 				System.out.println("");
 			}
 		}
-		scan.close();
 	}
-	
-	// FOR TESTING
+
+	/**
+	 * print all rooms
+	 */
 	public void viewAllRooms() {
 		ArrayList<Room> rooms = roomController.getRooms();
 		for (Room r : rooms) {
 			printRoomDetails(r);
 		}
 	}
+
+	/**
+	 * print available rooms
+	 */
+	public void viewAllAvailableRooms() {
+		for (Room r : roomController.getRooms()) {
+			if (r.getStatus().equals("Vacant")) {
+				printRoomDetails(r);
+			}
+		}
+	}
+
+	/**
+	 * set room reserved
+	 * @param roomId
+	 */
+	public void setRoomReserved(String roomId) {
+		for (Room r : roomController.getRooms()) {
+			if (r.getRoomID().equals(roomId)) {
+				r.setStatus("Reserved");
+				roomController.saveChanges();
+			}
+		}
+	}
+
+	/**
+	 * set room vacant
+	 * @param roomId
+	 */
+	public void setRoomVacant(String roomId) {
+		for (Room r : roomController.getRooms()) {
+			if (r.getRoomID().equals(roomId)) {
+				r.setStatus("Vacant");
+				roomController.saveChanges();
+			}
+		}
+	}
+
+	/**
+	 * set room occupied
+	 * @param roomId
+	 */
+	public void setRoomOccupied(String roomId) {
+		for (Room r : roomController.getRooms()) {
+			if (r.getRoomID().equals(roomId)) {
+				r.setStatus("Occupied");
+			}
+		}
+		roomController.saveChanges();
+	}
+
+	/**
+	 * print the room by ID
+	 */
+	public void printRoomByID() {
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter Room Number: ");
+		String roomID = scan.nextLine();
+		Room r = searchRoomByID(roomID);
+		if (r != null)
+			System.out.println(r.toString());
+		else
+			System.out.println("Room with number " + roomID + " not found");
+	}
+
+	/**
+	 * Update a room's detail
+	 */
+	public void updateRoomDetails() {
+		Scanner scan = new Scanner(System.in);
+
+		System.out.println("Enter Room Number: ");
+
+		String roomID = scan.nextLine();
+
+		Room r = searchRoomByID(roomID);
+
+		if (r == null) {
+			System.out.println("Room does not exist");
+		} else {
+			System.out.print("Change availability: ");
+			changeRoomStatus(r);
+		}
+
+		// update room details and availability
+
+	}
+
 }

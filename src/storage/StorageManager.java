@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * This class offers methods to read/retrieve data from persistent storage
  * Note: this is a singleton class
- * @author Zhang Jie
+ * @author Zhu Jiahui
  *
  */
 public class StorageManager {

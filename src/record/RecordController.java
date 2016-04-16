@@ -37,7 +37,7 @@ public class RecordController {
 
     public boolean saveChanges(){
         if (storageManager.store(STORAGE_KEY, records)){    //check for binary file name
-            System.out.println("Order Info all saved!");
+            System.out.println("Record Info all saved!");
             return true;
         }else
         {

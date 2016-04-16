@@ -45,7 +45,7 @@ public class GuestManager {
     /**
      * add a new guest to the database
      */
-    public void addGuest() {
+    public Guest addGuest() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the guest's name:");
         String name = sc.nextLine();
@@ -68,6 +68,7 @@ public class GuestManager {
         guestList.add(newGuest);
         //save the modified entries back to the file database
         guestController.saveChanges();
+        return newGuest;
     }
 
 
@@ -91,28 +92,141 @@ public class GuestManager {
 
 
     /**
-     * update the guest's information
+     * search a guest by its keywords and do the update
      */
-    public void updateGuest() {
-
-    }
-
-
-    /**
-     * search a guest by its ID
-     * @param guestID
-     * @return the guest object
-     */
-    public Guest searchGuestById(int guestID) {
-
+    public Guest searchGuestByKeyWords(String name) {
+        for (Guest i : getGuestList()) {
+            if (i.getName().equals(name)) {
+                return i;
+            }
+        }
+        System.out.println("The guest is not found.");
         return null;
     }
 
+    public void searchGuest() {
+        Scanner sc = new Scanner(System.in);
+        Guest theGuest = new Guest();
+        boolean foundAGuest = false;
+        while (foundAGuest == false) {
+            System.out.println("Please enter the guest's name");
+            String newguest = sc.nextLine();
+            for (Guest i : guestController.getGuests()) {
+                if (i.getName().equals(newguest)) {
+                    theGuest = i;
+                }
+            }
+            if (theGuest.getName() == null) {
+                System.out.println("The name is not stored. Want to try again? 1: yes / 2: no ");
+                int choice1 = sc.nextInt();
+                sc.nextLine();
+                if (choice1 == 2) {
+                    System.out.println("Returning to the previous menu");
+                    return;
+                }
+            } else {
+                foundAGuest = true;
+            }
+        }
+        System.out.println("");
+        System.out.println("The detailed information of the guest: ");
+        System.out.println("");
+        System.out.println(theGuest.toString());
 
-    /**
-     * search a guest by its keywords
-     */
-    public void searchGuestByKeyWords() {
 
+        String newInfo = "";
+        int choice;
+        do {
+            System.out.println("");
+            System.out.println("Perform the following methods:");
+            System.out.println("(1) Update the guest's name");
+            System.out.println("(2) Update the guest's credit card number");
+            System.out.println("(3) Update the guest's address");
+            System.out.println("(4) Update the guest's country");
+            System.out.println("(5) Update the guest's identity");
+            System.out.println("(6) Update the guest's nationality");
+            System.out.println("(7) Update the guest's phoneNum");
+            System.out.println("(8) print the guest's information");
+            System.out.println("(9) Return to previous menu...");
+            System.out.println("");
+            choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case -1:
+                    System.out.println("you entered -1");
+                    break;
+                case 1:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setName(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setName(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                    break;
+                case 2:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setCreditCardNum(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setCreditCardNum(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                    break;
+                case 3:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setAddress(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setAddress(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                    break;
+                case 4:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setCountry(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setCountry(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                    break;
+                case 5:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setIdentity(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setIdentity(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                case 6:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setNationality(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setNationality(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                case 7:
+                    System.out.println("Enter the new guest info: ");
+                    newInfo = sc.nextLine();
+                    theGuest.setPhoneNum(newInfo);
+                    for (Guest i : guestController.getGuests()) {
+                        i.setPhoneNum(newInfo);
+                    }
+                    guestController.saveChanges();
+                    System.out.println("");
+                    break;
+                case 8:
+                    System.out.println(theGuest.toString());
+                    System.out.println("");
+            }
+        } while (choice < 9);
     }
 }

@@ -1,13 +1,23 @@
 import guestinfo.GuestManager;
+import record.RecordManager;
+import roominfo.RoomManager;
+import orderinfo.OrderManager;
 
 import java.util.Scanner;
 
 public class Main {
 
     private static GuestManager guestManager;
+    private static RecordManager recordManager;
+    private static RoomManager roomManager;
+    private static OrderManager orderManager;
+
 
     public static void main(String[] args) {
         guestManager = GuestManager.getInstance();
+        recordManager = RecordManager.getInstance();
+        roomManager = RoomManager.getInstance();
+        orderManager = OrderManager.getInstance();
 
         int choice;
         Scanner sc = new Scanner(System.in);
@@ -58,10 +68,11 @@ public class Main {
             System.out.println("Perform the following methods:");
             System.out.println("(1)List all guests' information");
             System.out.println("(2)Add a new guest");
-            System.out.println("(3)Search guests by keywords");
+            System.out.println("(3)Update a guest by keywords");
             System.out.println("(4)Return to main menu");
             System.out.println("");
             choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case -1:
                     System.out.println("you entered -1");
@@ -75,7 +86,7 @@ public class Main {
                     System.out.println("");
                     break;
                 case 3:
-                    guestManager.searchGuestByKeyWords();
+                    guestManager.searchGuest();
                     System.out.println("");
                     break;
                 case 4: System.out.println("Returning to Main Menu");
@@ -92,27 +103,30 @@ public class Main {
         do {
             System.out.println("");
             System.out.println("Perform the following methods:");
-            System.out.println("(1)Search Room and Show its Information by Room ID");
-            System.out.println("(2)Change the availability of a room");
-            System.out.println("(3)Update Room Type details");
-            System.out.println("(4)Print Room Status Statistics Report");
-            System.out.println("(5)Return to main menu");
+            System.out.println("(1) Search Room");
+            System.out.println("(2) Change Availability/Room Details");
+            System.out.println("(3) Print Room Statistics Report");
+            System.out.println("(4) Return to main menu");
             System.out.println("");
             choice = sc.nextInt();
+            sc.nextLine();
             switch (choice) {
                 case -1:
                     System.out.println("you entered -1");
                     break;
                 case 1:
-                    System.out.println("");
+                    roomManager.printRoomByID();	// search for room with its id and print its room details
                     break;
                 case 2:
-                    System.out.println("");
+                    /////////////////////////////////NOT COMPLETE////////////////////////////
+                    roomManager.updateRoomDetails();	// update room details and status
                     break;
                 case 3:
-                    System.out.println("");
+                    roomManager.printRoomStatsReport();
                     break;
-                case 4: System.out.println("Returning to Main Menu");
+                default:
+                    System.out.println("Returning to Main Menu");
+                    break;
             }
         } while (choice < 4);
     }
@@ -126,28 +140,34 @@ public class Main {
         do {
             System.out.println("");
             System.out.println("Perform the following methods:");
-            System.out.println("(1)Update Order Item List");
-            System.out.println("(2)Create an Order");
-            System.out.println("(3) ");
-            System.out.println("(4)Return to main menu");
+            System.out.println("(1) Add a Menu Item");
+            System.out.println("(2) Update a Menu Item");
+            System.out.println("(3) Remove a Menu Item");
+            System.out.println("(4) View Menu");
+            System.out.println("(5) Return to main menu");
             System.out.println("");
             choice = sc.nextInt();
             switch (choice) {
                 case -1:
                     System.out.println("you entered -1");
+                    orderManager.addOrder();
                     break;
                 case 1:
-                    System.out.println("");
+                    orderManager.addOrderItem();
                     break;
                 case 2:
-                    System.out.println("");
+                    orderManager.updateOrderItem();
                     break;
                 case 3:
-                    System.out.println("");
+                    orderManager.removeOrderItem();
                     break;
-                case 4: System.out.println("Returning to Main Menu");
+                case 4:
+                    orderManager.printOrderItemList();
+                    break;
+                case 5:
+                    System.out.println("Returning to Main Menu");
             }
-        } while (choice < 4);
+        } while (choice < 5);
     }
 
     /**
@@ -159,11 +179,10 @@ public class Main {
         do {
             System.out.println("");
             System.out.println("Perform the following methods:");
-            System.out.println("(1)Create a reservation");
-            System.out.println("(2)Cancel a reservation");
-            System.out.println("(3)Check a guest in");
-            System.out.println("(4)Check a guest out");
-            System.out.println("(5)Return to main menu");
+            System.out.println("(1)Create a reservation / Walk in check In");
+            System.out.println("(2)Print all reservations");
+            System.out.println("(3)Go to a reservation");
+            System.out.println("(4)Return to main menu");
             System.out.println("");
             choice = sc.nextInt();
             switch (choice) {
@@ -171,15 +190,17 @@ public class Main {
                     System.out.println("you entered -1");
                     break;
                 case 1:
+                    recordManager.makeReservation();
                     System.out.println("");
                     break;
                 case 2:
-                    System.out.println("");
+                    recordManager.printAllReservations();
                     break;
                 case 3:
-                    System.out.println("");
+                    recordManager.searchReservation();
                     break;
-                case 4: System.out.println("Returning to Main Menu");
+                case 4:
+                    System.out.println("");
             }
         } while (choice < 4);
     }

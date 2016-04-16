@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * An interface for strategy pattern
  * used to read/write list object to and from files
- * @author Zhang Jie
+ * @author Zhu Jiahui
  *
  */
 interface StorageMethod {

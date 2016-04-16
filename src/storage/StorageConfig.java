@@ -9,7 +9,7 @@ import java.util.Map;
  * Class for storing some constant parameters
  * it's actually a wrapper around the map data structure
  * This is put as a singleton method since it stores constant settings
- * @author Zhang Jie
+ * @author Zhu Jiahui
  *
  */
 public class StorageConfig {
@@ -28,6 +28,7 @@ public class StorageConfig {
 		configs.put("Room", "room.dat");
 		configs.put("Order", "order.dat");
 		configs.put("OrderItem", "orderItem.dat");
+		configs.put("Record","record.dat");
 	}
 	
 	public static StorageConfig getInstance(){

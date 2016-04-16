@@ -3,7 +3,7 @@ package storage;
 
 /**
  * Factory class for creating the correct StorageMethod using SystemConfig object
- * @author Zhang Jie
+ * @author Zhu Jiahui
  *
  */
 class StorageMethodFactory {

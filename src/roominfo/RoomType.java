@@ -24,7 +24,7 @@ public class RoomType implements Serializable {
 		this.discount = discount;
 	}
 
-	public String getRoomType() {
+	public String getType() {
 		return roomType;
 	}
 
@@ -71,12 +71,11 @@ public class RoomType implements Serializable {
 	public void setDiscount(float discount) {
 		this.discount = discount;
 	}
-	
+
+	/**
+	 * Retrieves this RoomType's formatted data regarding its title, WiFi connectivity, view description, smoking allowance, its price and discount amount
+	 */
 	public String toString() {
-		return "Room Type: " + roomType + "\n\tWiFi Enabled: " + (isWifiEnabled() ? "Yes" : "No") + "\n\t" + "Facing: " + facing + "\n\tSmoking Room: " + (isSmokingAllowed() ? "Yes" : "No") + "\n\tRoom Price: " + price;
-		/*
-	private boolean smokingAllowed;	// true for allowed, false for not allowed
-	private float price;
-	private float discount;*/
+		return "Room Type: " + roomType + "\n\tWiFi Enabled: " + (isWifiEnabled() ? "Yes" : "No") + "\n\t" + "View: " + facing + "\n\tSmoking Room: " + (isSmokingAllowed() ? "Yes" : "No") + "\n\tPrice: $" + price + "\n\tDiscount Rate: " + discount;
 	}
 }

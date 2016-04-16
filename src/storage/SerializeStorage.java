@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * A concrete storage method, using java's built-in read/write object methods
- * @author Zhang Jie
+ * @author Zhu Jiahui
  *
  */
 class SerializeStorage implements StorageMethod {

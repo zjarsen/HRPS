@@ -43,6 +43,6 @@ public class Room implements Serializable {
 	}
 	
 	public String toString() {
-		return "Number: " + roomID + "\nStatus: " + status + "\n" + roomType.toString();
+		return "Room Number: " + roomID + "\n" + "\t" + "Status: " + status + "\n" + "\t" + roomType.toString();
 	}
 }

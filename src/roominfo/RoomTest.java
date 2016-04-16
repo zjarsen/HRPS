@@ -27,7 +27,7 @@ public class RoomTest {
 				manager.addRoom();
 				break;
 			case 2:
-				manager.updateRoom();
+				//manager.updateRoom();
 				break;
 			case 3:
 				manager.addRoomTypes();
